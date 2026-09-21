@@ -25,9 +25,31 @@ const MARKET_FACTOR: Record<PricingInput["market"], number> = {
   online: 1.35,
 };
 
+import { aiPriceEstimate } from "@/lib/ai.functions";
+
 export const pricingService = {
-  async suggestPrice(input: PricingInput): Promise<PricingResult> {
-    await new Promise((r) => setTimeout(r, 1300));
+  async suggestPrice(input: PricingInput & { product?: string; place?: string }): Promise<PricingResult> {
+    const cost = input.rawMaterial + input.labour + input.packaging + input.transport;
+    try {
+      const ai = await aiPriceEstimate({ data: { ...input } });
+      const recommended = Math.max(Math.round(ai.recommended), cost + 1);
+      return {
+        cost,
+        minimum: Math.round(ai.minimum),
+        recommended,
+        premium: Math.max(Math.round(ai.premium), recommended + 1),
+        profit: recommended - cost,
+        marketLow: Math.round(ai.marketLow),
+        marketHigh: Math.round(ai.marketHigh),
+        reasons: ai.reasons,
+      };
+    } catch (error) {
+      console.error("Price AI failed, using the cost calculation instead", error);
+    }
+    return pricingService.calculatePrice(input);
+  },
+
+  calculatePrice(input: PricingInput): PricingResult {
     const cost = input.rawMaterial + input.labour + input.packaging + input.transport;
     const factor = MARKET_FACTOR[input.market];
     const minimum = Math.round((cost * 1.12) / 10) * 10;

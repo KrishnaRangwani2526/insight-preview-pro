@@ -16,6 +16,7 @@ import { Route as BusinessRouteImport } from './routes/business'
 import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ESetuRouteImport } from './routes/e-setu'
+import { Route as EcommerceRouteImport } from './routes/ecommerce'
 import { Route as LearningRouteImport } from './routes/learning'
 import { Route as LogisticsRouteImport } from './routes/logistics'
 import { Route as NotificationsRouteImport } from './routes/notifications'
@@ -31,6 +32,8 @@ import { Route as AiStudioCatalogRouteImport } from './routes/ai-studio.catalog'
 import { Route as AiStudioContentRouteImport } from './routes/ai-studio.content'
 import { Route as AiStudioImageRouteImport } from './routes/ai-studio.image'
 import { Route as AiStudioPricingRouteImport } from './routes/ai-studio.pricing'
+import { Route as EsetuIndexRouteImport } from './routes/esetu.index'
+import { Route as EsetuOrdersRouteImport } from './routes/esetu.orders'
 import { Route as FinanceIndexRouteImport } from './routes/finance.index'
 import { Route as FinanceEmiRouteImport } from './routes/finance.emi'
 import { Route as FinancePnlRouteImport } from './routes/finance.pnl'
@@ -47,6 +50,8 @@ import { Route as StoreIndexRouteImport } from './routes/store.index'
 import { Route as StoreCreateRouteImport } from './routes/store.create'
 import { Route as StoreCustomizeRouteImport } from './routes/store.customize'
 import { Route as StorePreviewRouteImport } from './routes/store.preview'
+import { Route as EsetuArtisanIdRouteImport } from './routes/esetu.artisan.$id'
+import { Route as EsetuProductIdRouteImport } from './routes/esetu.product.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -81,6 +86,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const ESetuRoute = ESetuRouteImport.update({
   id: '/e-setu',
   path: '/e-setu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcommerceRoute = EcommerceRouteImport.update({
+  id: '/ecommerce',
+  path: '/ecommerce',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearningRoute = LearningRouteImport.update({
@@ -156,6 +166,16 @@ const AiStudioImageRoute = AiStudioImageRouteImport.update({
 const AiStudioPricingRoute = AiStudioPricingRouteImport.update({
   id: '/ai-studio/pricing',
   path: '/ai-studio/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsetuIndexRoute = EsetuIndexRouteImport.update({
+  id: '/esetu/',
+  path: '/esetu/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsetuOrdersRoute = EsetuOrdersRouteImport.update({
+  id: '/esetu/orders',
+  path: '/esetu/orders',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanceIndexRoute = FinanceIndexRouteImport.update({
@@ -238,6 +258,16 @@ const StorePreviewRoute = StorePreviewRouteImport.update({
   path: '/store/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EsetuArtisanIdRoute = EsetuArtisanIdRouteImport.update({
+  id: '/esetu/artisan/$id',
+  path: '/esetu/artisan/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsetuProductIdRoute = EsetuProductIdRouteImport.update({
+  id: '/esetu/product/$id',
+  path: '/esetu/product/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -247,6 +277,7 @@ export interface FileRoutesByFullPath {
   '/customers': typeof CustomersRoute
   '/dashboard': typeof DashboardRoute
   '/e-setu': typeof ESetuRoute
+  '/ecommerce': typeof EcommerceRoute
   '/learning': typeof LearningRoute
   '/logistics': typeof LogisticsRoute
   '/notifications': typeof NotificationsRoute
@@ -260,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/ai-studio/content': typeof AiStudioContentRoute
   '/ai-studio/image': typeof AiStudioImageRoute
   '/ai-studio/pricing': typeof AiStudioPricingRoute
+  '/esetu/orders': typeof EsetuOrdersRoute
   '/finance/emi': typeof FinanceEmiRoute
   '/finance/pnl': typeof FinancePnlRoute
   '/finance/scheme': typeof FinanceSchemeRoute
@@ -273,11 +305,14 @@ export interface FileRoutesByFullPath {
   '/store/preview': typeof StorePreviewRoute
   '/advisor/': typeof AdvisorIndexRoute
   '/ai-studio/': typeof AiStudioIndexRoute
+  '/esetu/': typeof EsetuIndexRoute
   '/finance/': typeof FinanceIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/marketing/': typeof MarketingIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/store/': typeof StoreIndexRoute
+  '/esetu/artisan/$id': typeof EsetuArtisanIdRoute
+  '/esetu/product/$id': typeof EsetuProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -287,6 +322,7 @@ export interface FileRoutesByTo {
   '/customers': typeof CustomersRoute
   '/dashboard': typeof DashboardRoute
   '/e-setu': typeof ESetuRoute
+  '/ecommerce': typeof EcommerceRoute
   '/learning': typeof LearningRoute
   '/logistics': typeof LogisticsRoute
   '/notifications': typeof NotificationsRoute
@@ -300,6 +336,7 @@ export interface FileRoutesByTo {
   '/ai-studio/content': typeof AiStudioContentRoute
   '/ai-studio/image': typeof AiStudioImageRoute
   '/ai-studio/pricing': typeof AiStudioPricingRoute
+  '/esetu/orders': typeof EsetuOrdersRoute
   '/finance/emi': typeof FinanceEmiRoute
   '/finance/pnl': typeof FinancePnlRoute
   '/finance/scheme': typeof FinanceSchemeRoute
@@ -313,11 +350,14 @@ export interface FileRoutesByTo {
   '/store/preview': typeof StorePreviewRoute
   '/advisor': typeof AdvisorIndexRoute
   '/ai-studio': typeof AiStudioIndexRoute
+  '/esetu': typeof EsetuIndexRoute
   '/finance': typeof FinanceIndexRoute
   '/inventory': typeof InventoryIndexRoute
   '/marketing': typeof MarketingIndexRoute
   '/products': typeof ProductsIndexRoute
   '/store': typeof StoreIndexRoute
+  '/esetu/artisan/$id': typeof EsetuArtisanIdRoute
+  '/esetu/product/$id': typeof EsetuProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -328,6 +368,7 @@ export interface FileRoutesById {
   '/customers': typeof CustomersRoute
   '/dashboard': typeof DashboardRoute
   '/e-setu': typeof ESetuRoute
+  '/ecommerce': typeof EcommerceRoute
   '/learning': typeof LearningRoute
   '/logistics': typeof LogisticsRoute
   '/notifications': typeof NotificationsRoute
@@ -341,6 +382,7 @@ export interface FileRoutesById {
   '/ai-studio/content': typeof AiStudioContentRoute
   '/ai-studio/image': typeof AiStudioImageRoute
   '/ai-studio/pricing': typeof AiStudioPricingRoute
+  '/esetu/orders': typeof EsetuOrdersRoute
   '/finance/emi': typeof FinanceEmiRoute
   '/finance/pnl': typeof FinancePnlRoute
   '/finance/scheme': typeof FinanceSchemeRoute
@@ -354,11 +396,14 @@ export interface FileRoutesById {
   '/store/preview': typeof StorePreviewRoute
   '/advisor/': typeof AdvisorIndexRoute
   '/ai-studio/': typeof AiStudioIndexRoute
+  '/esetu/': typeof EsetuIndexRoute
   '/finance/': typeof FinanceIndexRoute
   '/inventory/': typeof InventoryIndexRoute
   '/marketing/': typeof MarketingIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/store/': typeof StoreIndexRoute
+  '/esetu/artisan/$id': typeof EsetuArtisanIdRoute
+  '/esetu/product/$id': typeof EsetuProductIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -370,6 +415,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/dashboard'
     | '/e-setu'
+    | '/ecommerce'
     | '/learning'
     | '/logistics'
     | '/notifications'
@@ -383,6 +429,7 @@ export interface FileRouteTypes {
     | '/ai-studio/content'
     | '/ai-studio/image'
     | '/ai-studio/pricing'
+    | '/esetu/orders'
     | '/finance/emi'
     | '/finance/pnl'
     | '/finance/scheme'
@@ -396,11 +443,14 @@ export interface FileRouteTypes {
     | '/store/preview'
     | '/advisor/'
     | '/ai-studio/'
+    | '/esetu/'
     | '/finance/'
     | '/inventory/'
     | '/marketing/'
     | '/products/'
     | '/store/'
+    | '/esetu/artisan/$id'
+    | '/esetu/product/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -410,6 +460,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/dashboard'
     | '/e-setu'
+    | '/ecommerce'
     | '/learning'
     | '/logistics'
     | '/notifications'
@@ -423,6 +474,7 @@ export interface FileRouteTypes {
     | '/ai-studio/content'
     | '/ai-studio/image'
     | '/ai-studio/pricing'
+    | '/esetu/orders'
     | '/finance/emi'
     | '/finance/pnl'
     | '/finance/scheme'
@@ -436,11 +488,14 @@ export interface FileRouteTypes {
     | '/store/preview'
     | '/advisor'
     | '/ai-studio'
+    | '/esetu'
     | '/finance'
     | '/inventory'
     | '/marketing'
     | '/products'
     | '/store'
+    | '/esetu/artisan/$id'
+    | '/esetu/product/$id'
   id:
     | '__root__'
     | '/'
@@ -450,6 +505,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/dashboard'
     | '/e-setu'
+    | '/ecommerce'
     | '/learning'
     | '/logistics'
     | '/notifications'
@@ -463,6 +519,7 @@ export interface FileRouteTypes {
     | '/ai-studio/content'
     | '/ai-studio/image'
     | '/ai-studio/pricing'
+    | '/esetu/orders'
     | '/finance/emi'
     | '/finance/pnl'
     | '/finance/scheme'
@@ -476,11 +533,14 @@ export interface FileRouteTypes {
     | '/store/preview'
     | '/advisor/'
     | '/ai-studio/'
+    | '/esetu/'
     | '/finance/'
     | '/inventory/'
     | '/marketing/'
     | '/products/'
     | '/store/'
+    | '/esetu/artisan/$id'
+    | '/esetu/product/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -491,6 +551,7 @@ export interface RootRouteChildren {
   CustomersRoute: typeof CustomersRoute
   DashboardRoute: typeof DashboardRoute
   ESetuRoute: typeof ESetuRoute
+  EcommerceRoute: typeof EcommerceRoute
   LearningRoute: typeof LearningRoute
   LogisticsRoute: typeof LogisticsRoute
   NotificationsRoute: typeof NotificationsRoute
@@ -504,6 +565,7 @@ export interface RootRouteChildren {
   AiStudioContentRoute: typeof AiStudioContentRoute
   AiStudioImageRoute: typeof AiStudioImageRoute
   AiStudioPricingRoute: typeof AiStudioPricingRoute
+  EsetuOrdersRoute: typeof EsetuOrdersRoute
   FinanceEmiRoute: typeof FinanceEmiRoute
   FinancePnlRoute: typeof FinancePnlRoute
   FinanceSchemeRoute: typeof FinanceSchemeRoute
@@ -517,11 +579,14 @@ export interface RootRouteChildren {
   StorePreviewRoute: typeof StorePreviewRoute
   AdvisorIndexRoute: typeof AdvisorIndexRoute
   AiStudioIndexRoute: typeof AiStudioIndexRoute
+  EsetuIndexRoute: typeof EsetuIndexRoute
   FinanceIndexRoute: typeof FinanceIndexRoute
   InventoryIndexRoute: typeof InventoryIndexRoute
   MarketingIndexRoute: typeof MarketingIndexRoute
   ProductsIndexRoute: typeof ProductsIndexRoute
   StoreIndexRoute: typeof StoreIndexRoute
+  EsetuArtisanIdRoute: typeof EsetuArtisanIdRoute
+  EsetuProductIdRoute: typeof EsetuProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -573,6 +638,13 @@ declare module '@tanstack/react-router' {
       path: '/e-setu'
       fullPath: '/e-setu'
       preLoaderRoute: typeof ESetuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecommerce': {
+      id: '/ecommerce'
+      path: '/ecommerce'
+      fullPath: '/ecommerce'
+      preLoaderRoute: typeof EcommerceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/learning': {
@@ -678,6 +750,20 @@ declare module '@tanstack/react-router' {
       path: '/ai-studio/pricing'
       fullPath: '/ai-studio/pricing'
       preLoaderRoute: typeof AiStudioPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/esetu/': {
+      id: '/esetu/'
+      path: '/esetu'
+      fullPath: '/esetu/'
+      preLoaderRoute: typeof EsetuIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/esetu/orders': {
+      id: '/esetu/orders'
+      path: '/esetu/orders'
+      fullPath: '/esetu/orders'
+      preLoaderRoute: typeof EsetuOrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finance/': {
@@ -792,6 +878,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StorePreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/esetu/artisan/$id': {
+      id: '/esetu/artisan/$id'
+      path: '/esetu/artisan/$id'
+      fullPath: '/esetu/artisan/$id'
+      preLoaderRoute: typeof EsetuArtisanIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/esetu/product/$id': {
+      id: '/esetu/product/$id'
+      path: '/esetu/product/$id'
+      fullPath: '/esetu/product/$id'
+      preLoaderRoute: typeof EsetuProductIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -803,6 +903,7 @@ const rootRouteChildren: RootRouteChildren = {
   CustomersRoute: CustomersRoute,
   DashboardRoute: DashboardRoute,
   ESetuRoute: ESetuRoute,
+  EcommerceRoute: EcommerceRoute,
   LearningRoute: LearningRoute,
   LogisticsRoute: LogisticsRoute,
   NotificationsRoute: NotificationsRoute,
@@ -816,6 +917,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiStudioContentRoute: AiStudioContentRoute,
   AiStudioImageRoute: AiStudioImageRoute,
   AiStudioPricingRoute: AiStudioPricingRoute,
+  EsetuOrdersRoute: EsetuOrdersRoute,
   FinanceEmiRoute: FinanceEmiRoute,
   FinancePnlRoute: FinancePnlRoute,
   FinanceSchemeRoute: FinanceSchemeRoute,
@@ -829,11 +931,14 @@ const rootRouteChildren: RootRouteChildren = {
   StorePreviewRoute: StorePreviewRoute,
   AdvisorIndexRoute: AdvisorIndexRoute,
   AiStudioIndexRoute: AiStudioIndexRoute,
+  EsetuIndexRoute: EsetuIndexRoute,
   FinanceIndexRoute: FinanceIndexRoute,
   InventoryIndexRoute: InventoryIndexRoute,
   MarketingIndexRoute: MarketingIndexRoute,
   ProductsIndexRoute: ProductsIndexRoute,
   StoreIndexRoute: StoreIndexRoute,
+  EsetuArtisanIdRoute: EsetuArtisanIdRoute,
+  EsetuProductIdRoute: EsetuProductIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

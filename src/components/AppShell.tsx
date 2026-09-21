@@ -27,6 +27,7 @@ import {
   Send,
   X,
   ChevronLeft,
+  ShoppingBag,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
@@ -38,9 +39,11 @@ import { Sheet, ActionButton } from "./ui-kit";
 import { AutoTranslate } from "./AutoTranslate";
 import { Bi, useLabel } from "./Bi";
 import { useVoiceRecorder } from "@/lib/use-voice-recorder";
+import { useESetuAutoSync } from "@/lib/use-esetu-sync";
 
 const MORE_LINKS = [
   { to: "/one-tap", label: "One Tap AI", icon: Sparkles },
+  { to: "/ecommerce", label: "E-Commerce", icon: ShoppingBag },
   { to: "/e-setu", label: "E-Setu Marketplace", icon: Globe },
   { to: "/inventory", label: "Inventory", icon: Boxes },
   { to: "/marketing", label: "Marketing", icon: Megaphone },
@@ -70,6 +73,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { state, update } = useApp();
   const { online, syncing } = useOnline();
+  useESetuAutoSync();
   const tl = useLabel();
   const [moreOpen, setMoreOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
