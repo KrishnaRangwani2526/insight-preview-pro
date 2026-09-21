@@ -14,7 +14,7 @@ export interface CatalogueCopy {
   english: string;
 }
 
-export const aiService = {
+const mock = {
   async transcribeVoice(lang: string): Promise<string> {
     await wait(2200);
     if (lang === "hi")
@@ -192,3 +192,98 @@ function buildOutput(type: string, input: string, params: Record<string, string>
       return `${type}\n\n${input}`;
   }
 }
+
+
+/* ---------------- Real AI, with a safe fallback ---------------- */
+
+import {
+  aiAdvertisement,
+  aiAssistant,
+  aiFeasibility,
+  aiPriceEstimate,
+  aiProductCopy,
+  aiReelScript,
+  aiSwot,
+  aiTransformContent,
+} from "@/lib/ai.functions";
+
+async function withFallback<T>(run: () => Promise<T>, fallback: () => Promise<T>): Promise<T> {
+  try {
+    return await run();
+  } catch (error) {
+    console.error("AI call failed, showing a basic result instead", error);
+    return fallback();
+  }
+}
+
+export const aiService = {
+  transcribeVoice: mock.transcribeVoice,
+  enhanceImage: mock.enhanceImage,
+
+  generateProductDescription(name: string, material?: string): Promise<CatalogueCopy> {
+    return withFallback(
+      () => aiProductCopy({ data: { name, material } }),
+      () => mock.generateProductDescription(name, material),
+    );
+  },
+
+  generateAdvertisement(product: string, offer: string, audience: string) {
+    return withFallback(
+      async () => ({
+        ...(await aiAdvertisement({ data: { product, offer, audience } })),
+        audience,
+      }),
+      () => mock.generateAdvertisement(product, offer, audience),
+    );
+  },
+
+  generateReelScript(product: string) {
+    return withFallback(
+      () => aiReelScript({ data: { product } }),
+      () => mock.generateReelScript(product),
+    );
+  },
+
+  transformContent(inputSummary: string, outputs: string[], params: Record<string, string>) {
+    return withFallback(
+      async () => {
+        const result = await aiTransformContent({ data: { input: inputSummary, outputs, params } });
+        return outputs.map((type) => ({
+          type,
+          body:
+            result.items.find((item) => item.type.toLowerCase() === type.toLowerCase())?.body ??
+            result.items.shift()?.body ??
+            "",
+        }));
+      },
+      () => mock.transformContent(inputSummary, outputs, params),
+    );
+  },
+
+  generateSWOT(context?: {
+    business?: string;
+    craft?: string;
+    place?: string;
+    products?: string[];
+    monthlyRevenue?: number;
+  }) {
+    return withFallback(
+      () => aiSwot({ data: context ?? {} }),
+      () => mock.generateSWOT(),
+    );
+  },
+
+  generateFeasibility(category: string, capital: number, place?: string) {
+    return withFallback(
+      () => aiFeasibility({ data: { category, capital, place } }),
+      () => mock.generateFeasibility(category, capital),
+    );
+  },
+
+  askAssistant(question: string, context?: string): Promise<string> {
+    return withFallback(
+      () => aiAssistant({ data: { question, context } }),
+      () => mock.askAssistant(question),
+    );
+  },
+};
